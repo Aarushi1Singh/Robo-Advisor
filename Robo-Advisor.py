@@ -4,12 +4,6 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
-# Constants for annualizationimport gradio as gr
-import pandas as pd
-import numpy as np
-from scipy.optimize import minimize
-import matplotlib.pyplot as plt
-
 # -----------------------
 # Custom CSS for the UI
 # -----------------------
@@ -93,6 +87,14 @@ custom_css = """
     .feature-card h3 {
         color: #4CAF50;
         margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .feature-card p {
+        color: #333;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
     }
     
     .steps-container {
@@ -338,16 +340,16 @@ custom_css = custom_css + chart_cards_css
 # ])
 
 varcov_table=np.array([
-[0.00005783252358,	0.0000008188491971,	0.00002599956474,	0.000005448083118,	-0.000001516929059,	0.000004363999129,	0.000002184729088,	-0.00000007075999813,	-0.00000188478169,	0.000003182968299],
-[0.0000008188491971,	0.00005742707494,	0.0000003757472749,	0.00001553740121,	0.0000008756910494,	0.000005044106279,	0.000007903862419,	-0.00000004082585577,	0.00001114824033,	0.00002433468151],
-[0.00002599956474,	0.0000003757472749,	0.00009010471285,	-0.000001859353838,	-0.000002694923473,	0.000001479002793,	0.0000002796358603,	-0.000001214069714,	-0.000004600932283,	0.000002684461178],
-[0.000005448083118,	0.00001553740121,	-0.000001859353838,	0.0002199085024,	0.000003852611596,	0.00008661382437,	0.000009666604951,	0.000002555821641,	0.00008924999677,	0.00002635948809],
-[-0.000001516929059,	0.0000008756910494,	-0.000002694923473,	0.000003852611596,	0.00004339089246,	0.000002358908064,	0.0000006022483796,	0.0000005346512427,	0.000000762723043,	0.000002845257992],
-[0.000004363999129,	0.000005044106279,	0.000001479002793,	0.00008661382437,	0.000002358908064,	0.0000640536051,	0.000006313738098,	0.000001651418512,	0.00002882278815,	0.00001264273636],
-[0.000002184729088,	0.000007903862419,	0.0000002796358603,	0.000009666604951,	0.0000006022483796,	0.000006313738098,	0.00004600806636,	-0.000001487486851,	0.000004275884941,	0.00001146731816],
-[-0.00000007075999813,	-0.00000004082585577,	-0.000001214069714,	0.000002555821641,	0.0000005346512427,	0.000001651418512,	-0.000001487486851,	0.00006801925769,	-0.0000005304047828,	-0.000001833126628],
-[-0.00000188478169,	0.00001114824033,	-0.000004600932283,	0.00008924999677,	0.000000762723043,	0.00002882278815,	0.000004275884941,	-0.0000005304047828,	0.0003082520662,	0.0000128923708],
-[0.000003182968299,	0.00002433468151,	0.000002684461178,	0.00002635948809,	0.000002845257992,	0.00001264273636,	0.00001146731816,	-0.000001833126628,	0.0000128923708,	0.00009545711433],])
+[0.00005783252358,      0.0000008188491971,     0.00002599956474,       0.000005448083118,      -0.000001516929059,     0.000004363999129,      0.000002184729088,      -0.00000007075999813,   -0.00000188478169,      0.000003182968299],
+[0.0000008188491971,    0.00005742707494,       0.0000003757472749,     0.00001553740121,       0.0000008756910494,     0.000005044106279,      0.000007903862419,      -0.00000004082585577,   0.00001114824033,       0.00002433468151],
+[0.00002599956474,      0.0000003757472749,     0.00009010471285,       -0.000001859353838,     -0.000002694923473,     0.000001479002793,      0.0000002796358603,     -0.000001214069714,     -0.000004600932283,     0.000002684461178],
+[0.000005448083118,     0.00001553740121,       -0.000001859353838,     0.0002199085024,        0.000003852611596,      0.00008661382437,       0.000009666604951,      0.000002555821641,      0.00008924999677,       0.00002635948809],
+[-0.000001516929059,    0.0000008756910494,     -0.000002694923473,     0.000003852611596,      0.00004339089246,       0.000002358908064,      0.0000006022483796,     0.0000005346512427,     0.000000762723043,      0.000002845257992],
+[0.000004363999129,     0.000005044106279,      0.000001479002793,      0.00008661382437,       0.000002358908064,      0.0000640536051,        0.000006313738098,      0.000001651418512,      0.00002882278815,       0.00001264273636],
+[0.000002184729088,     0.000007903862419,      0.0000002796358603,     0.000009666604951,      0.0000006022483796,     0.000006313738098,      0.00004600806636,       -0.000001487486851,     0.000004275884941,      0.00001146731816],
+[-0.00000007075999813,  -0.00000004082585577,   -0.000001214069714,     0.000002555821641,      0.0000005346512427,     0.000001651418512,      -0.000001487486851,     0.00006801925769,       -0.0000005304047828,    -0.000001833126628],
+[-0.00000188478169,     0.00001114824033,       -0.000004600932283,     0.00008924999677,       0.000000762723043,      0.00002882278815,       0.000004275884941,      -0.0000005304047828,    0.0003082520662,        0.0000128923708],
+[0.000003182968299,     0.00002433468151,       0.000002684461178,      0.00002635948809,       0.000002845257992,      0.00001264273636,       0.00001146731816,       -0.000001833126628,     0.0000128923708,        0.00009545711433],])
 
 varcov_table = varcov_table * 252  # Annualize the covariance matrix
 
@@ -499,80 +501,48 @@ def constraint2(x, avg_ret, needed_return,small_number=1E-12):
     return small_number-abs(needed_return-find_return(x,avg_ret))
 
 
-initial_weight_min_2=np.array([0.001]*(len(fund_name)-1))
+def compute_efficient_frontier_data():
+    """Compute efficient frontier data - called lazily when needed"""
+    initial_weight_min_2=np.array([0.001]*(len(fund_name)-1))
 
-up_bound=max(avg_ret)
-low_bound=min(avg_ret)
-observation=25
-interval=(up_bound-low_bound)/observation
+    up_bound=max(avg_ret)
+    low_bound=min(avg_ret)
+    observation=25
+    interval=(up_bound-low_bound)/observation
 
-eff_frontier_ret=[low_bound + (i*interval) for i in range(0,observation+1)]
+    eff_frontier_ret=[low_bound + (i*interval) for i in range(0,observation+1)]
 
-print(up_bound)
-print(low_bound)
-print(eff_frontier_ret)
+    eff_frontier_weight=[]
+    eff_frontier_standard_dev=[]
+    curr_initial_weight=initial_weight_min_2
+    for needed_return in eff_frontier_ret:
+        cons =[{'type':'ineq', 'fun': constraint1},
+               {'type':'ineq', 'fun': lambda x: constraint2(x, avg_ret, needed_return)}]
+        bnd=  tuple(((0, 1) for _ in range((len(fund_name)-1))))
+        result = minimize(fun=lambda x: objective_function_eff_front(x, varcov_table), x0=curr_initial_weight, method='COBYLA', bounds=bnd, constraints=cons)
+        eff_frontier_weight.append(result.x)
+        standard_dev=find_variance(result.x, varcov_table)**0.5
+        eff_frontier_standard_dev.append(standard_dev)
+        curr_initial_weight=result.x
 
-eff_frontier_weight=[]
-eff_frontier_standard_dev=[]
-curr_initial_weight=initial_weight_min_2
-for needed_return in eff_frontier_ret:
-    cons =[{'type':'ineq', 'fun': constraint1},
-           {'type':'ineq', 'fun': lambda x: constraint2(x, avg_ret, needed_return)}]
-    bnd=  tuple(((0, 1) for _ in range((len(fund_name)-1))))
-    # print(initial_weight_min_2)
-    # print(objective_function_eff_front(initial_weight_min_2,varcov_table))
-    result = minimize(fun=lambda x: objective_function_eff_front(x, varcov_table), x0=curr_initial_weight, method='COBYLA', bounds=bnd, constraints=cons)
-    eff_frontier_weight.append(result.x)
-    standard_dev=find_variance(result.x, varcov_table)**0.5
-    eff_frontier_standard_dev.append(standard_dev)
-    curr_initial_weight=result.x
-    print("///////////////////////////////////////////////////////////")
-    print("//Portfolio weight////////////////////////////////////////")
-    for res in range(len(result.x)):
-        print(fund_name[res], end=": ")
-        print(np.round(result.x[res],5))
-    print(fund_name[-1], end=": ")
-    print(np.round(1-sum(result.x),5))
-    print("///////////////////////////////////////////////////////////")
-    print("///////////////////////////////////////////////////////////")
-    print(needed_return)
-    print(standard_dev)
-    print(abs(needed_return-find_return(result.x, avg_ret)))
-    print("///////////////////////////////////////////////////////////")
-    # print("//Portfolio Statistic////////////////////////////////////////")
-    # print('needed return: ', end="")
-    # print(needed_return)
-    # print(" std: ",end="")
-    # print(find_standard_dev(result.x, varcov_table))
-    # print("///////////////////////////////////////////////////////////")
+    # Efficient frontier calculation with short selling allowed (without bounds)
+    eff_frontier_weight_w_ss=[]
+    eff_frontier_standard_dev_w_ss=[]
+    curr_initial_weight=initial_weight_min_2
+    for needed_return in eff_frontier_ret:
+        cons =[{'type':'ineq', 'fun': lambda x: constraint2(x, avg_ret, needed_return)}]
+        result = minimize(fun=lambda x: objective_function_eff_front(x, varcov_table), x0=curr_initial_weight, method='COBYLA', constraints=cons)
+        eff_frontier_weight_w_ss.append(result.x)
+        standard_dev=find_variance(result.x, varcov_table)**0.5
+        eff_frontier_standard_dev_w_ss.append(standard_dev)
+        curr_initial_weight=result.x
+    
+    return eff_frontier_ret, eff_frontier_standard_dev, eff_frontier_standard_dev_w_ss
 
-# Efficient frontier calculation with short selling allowed (without bounds)
-eff_frontier_weight_w_ss=[]
-eff_frontier_standard_dev_w_ss=[]
-curr_initial_weight=initial_weight_min_2
-for needed_return in eff_frontier_ret:
-    cons =[{'type':'ineq', 'fun': lambda x: constraint2(x, avg_ret, needed_return)}]
-    # bnd=  tuple(((0, 1) for _ in range((len(fund_name)-1))))
-    # print(initial_weight_min_2)
-    # print(objective_function_eff_front(initial_weight_min_2,varcov_table))
-    result = minimize(fun=lambda x: objective_function_eff_front(x, varcov_table), x0=curr_initial_weight, method='COBYLA', constraints=cons)
-    eff_frontier_weight_w_ss.append(result.x)
-    standard_dev=find_variance(result.x, varcov_table)**0.5
-    eff_frontier_standard_dev_w_ss.append(standard_dev)
-    curr_initial_weight=result.x
-    print("///////////////////////////////////////////////////////////")
-    print("//Portfolio weight////////////////////////////////////////")
-    for res in range(len(result.x)):
-        print(fund_name[res], end=": ")
-        print(np.round(result.x[res],5))
-    print(fund_name[-1], end=": ")
-    print(np.round(1-sum(result.x),5))
-    print("///////////////////////////////////////////////////////////")
-    print("///////////////////////////////////////////////////////////")
-    print(needed_return)
-    print(standard_dev)
-    print(abs(needed_return-find_return(result.x, avg_ret)))
-    print("///////////////////////////////////////////////////////////")
+# Initialize as None - will be computed lazily
+eff_frontier_ret = None
+eff_frontier_standard_dev = None
+eff_frontier_standard_dev_w_ss = None
 
 # Compute fund risks from variance (take only the first len(fund_name) diagonal elements)
 fund_risks = np.sqrt(np.diag(varcov_table)[:len(fund_name)])
@@ -619,6 +589,11 @@ def plot_efficient_frontier():
     return fig
 
 def plot_eff_new():
+    # Compute efficient frontier data lazily
+    global eff_frontier_ret, eff_frontier_standard_dev, eff_frontier_standard_dev_w_ss
+    if eff_frontier_ret is None:
+        eff_frontier_ret, eff_frontier_standard_dev, eff_frontier_standard_dev_w_ss = compute_efficient_frontier_data()
+    
     # Create a figure and axes using subplots
     fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -1203,4 +1178,4 @@ with gr.Blocks(css=custom_css) as demo:
         )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=3000, share=True)
+    demo.launch(server_name="0.0.0.0", server_port=5000)
